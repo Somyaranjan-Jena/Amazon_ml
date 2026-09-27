@@ -1,0 +1,61 @@
+data:
+  train_source1: "dataset/train/train_source1.tsv"
+  train_source2: "dataset/train/train_source2.tsv"
+  train_source3: "dataset/train/train_source3.tsv"
+  train_ground_truth: "dataset/train/train_ground_truth.tsv"
+  test_source1: "dataset/test/test_source1.tsv"
+  test_source2: "dataset/test/test_source2.tsv"
+  test_source3: "dataset/test/test_source3.tsv"
+  output_dir: "output"
+  cache_dir: "cache"
+
+blocking:
+  max_candidates_per_s1: 60
+  max_doc_freq: 25000
+  min_token_len: 3
+  top_rare_tokens_name: 3
+  top_rare_tokens_addr: 2
+  enable_exact_name: true
+  enable_exact_addr: true
+  enable_addr_pin_house: true
+  enable_name_rare_tokens: true
+  enable_domain_stem: true
+
+model:
+  type: "xgboost_gpu"
+  device: "cuda"
+  tree_method: "hist"
+  objective: "binary:logistic"
+  eval_metric: "logloss"
+  eta: 0.05
+  max_depth: 8
+  min_child_weight: 30
+  subsample: 0.8
+  colsample_bytree: 0.8
+  gamma: 0.1
+  lambda: 1.0
+  alpha: 0.1
+  max_bin: 256
+  num_boost_round: 500
+  early_stopping_rounds: 30
+  seed: 42
+
+training:
+  n_samples: 100000
+  negative_ratio: 3.0
+  distractor_pool_size: 200000
+
+validation:
+  val_ratio: 0.25
+  random_seed: 42
+
+decision:
+  default_threshold: 0.85
+  threshold_grid_start: 0.30
+  threshold_grid_end: 0.90
+  threshold_grid_step: 0.05
+
+inference:
+  batch_size_gpu: 200000
+  batch_size_cpu: 50000
+  max_candidates_per_s1: 50

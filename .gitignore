@@ -1,0 +1,8 @@
+.venv/
+dataset/
+output/
+cache/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.zip
